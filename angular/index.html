@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app="movies" lang='en'>
+<head>
+    <title>Movie Recommend</title>
+    <meta charset="utf-8" />
+    <!-- Boostrap3 -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
+
+</head>
+<body ng-controller="MovieController as movieCtrl">
+    <!-- Nav bar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Movie Recommender</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{ active:movieCtrl.isSet(1) }">
+                        <a href ng-click="movieCtrl.setTab(1)">Search</a>
+                    </li>
+                    <li ng-class="{ active:movieCtrl.isSet(2) }">
+                        <a href ng-click="movieCtrl.setTab(2); movieCtrl.recommend()">Recommendations</a>
+                    </li>
+                    <li ng-class="{ active:movieCtrl.isSet(3) }">
+                        <a href ng-click="movieCtrl.setTab(3)">Settings</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class='container'>
+        <div ng-show="movieCtrl.isSet(1)" class="list-group">
+            <form name="searchForm" ng-submit="movieCtrl.lookup()">
+                <fieldset class="form-group">
+                    <input ng-model="movieCtrl.search" class="form-control" placeholder="search terms (space separated words)" title="Search" />
+                </fieldset>
+                <fieldset class="form-group">
+                    <input type="submit" class="btn btn-primary pull-right" value="Search" />
+                <fieldset>
+            </form>
+        </div>
+        <div ng-show="movieCtrl.isSet(1)" class="list-group">
+            <div ng-show="movieCtrl.results.length">Results</div>
+            <div class="list-group-item" ng-repeat="result in movieCtrl.results">
+                <h4><a href={{result.imdb_url}} target="_blank">{{result.movie_title}}</a></h4>
+                <form ng-controller="RateController as rateCtrl" ng-submit="rateCtrl.rate(result.movie_id)">
+                    <fieldset class="form-group">
+                        <select ng-model="rateCtrl.rating" class="form-control" ng-options="stars for stars in [5,4,3,2,1]" title="Stars">
+                            <option value>Rate the Movie</option>
+                        </select>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <input type="submit" class="btn btn-primary pull-right" value="Rate" />
+                    </fieldset>
+                    {{rateCtrl.data}}
+                </form>
+            </div>
+        </div>
+        <div ng-show="movieCtrl.isSet(2)" class="list-group">
+            <div class="list-group-item" ng-repeat="result in movieCtrl.recommendations">
+                <h4><a href={{result.imdb_url}} target="_blank">{{result.movie_title}}</a></h4>
+            </div>
+        </div>
+        <div ng-controller="SettingsController as settings" ng-show="movieCtrl.isSet(3)" class="list-group">
+            <a href ng-click="settings.resetRatings()">Clear ratings</a>
+        </div>
+    </div>
+
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- AngularJS -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</body>
+</html>
