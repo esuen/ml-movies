@@ -9,3 +9,5 @@ Codeschool AngularJS - http://campus.codeschool.com/courses/shaping-up-with-angu
 Graphlab - https://turi.com
 
 Graphlab Item similarity - https://turi.com/products/create/docs/generated/graphlab.recommender.item_similarity_recommender.ItemSimilarityRecommender.html#ricci-et-al
+
+Helpful blog - https://www.analyticsvidhya.com/blog/2016/06/quick-guide-build-recommendation-engine-python/
